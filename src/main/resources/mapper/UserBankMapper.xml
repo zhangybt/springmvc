@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.product.dao.UserBankMapper" >
+  <resultMap id="BaseResultMap" type="com.product.entity.UserBank" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <id column="bank_card" property="bankCard" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="open_bank" property="openBank" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="bank_pk" property="bankPk" jdbcType="VARCHAR" />
+    <result column="default_account" property="defaultAccount" jdbcType="VARCHAR" />
+    <result column="icode" property="icode" jdbcType="VARCHAR" />
+    <result column="dr" property="dr" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, bank_card, bank_name, open_bank, user_name, create_time, bank_pk, default_account, 
+    icode, dr
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.product.entity.UserBankExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_bank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.product.entity.UserBankKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_bank
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and bank_card = #{bankCard,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.product.entity.UserBankKey" >
+    delete from user_bank
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and bank_card = #{bankCard,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.product.entity.UserBankExample" >
+    delete from user_bank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.product.entity.UserBank" >
+    insert into user_bank (user_id, bank_card, bank_name, 
+      open_bank, user_name, create_time, 
+      bank_pk, default_account, icode, 
+      dr)
+    values (#{userId,jdbcType=VARCHAR}, #{bankCard,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{openBank,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{bankPk,jdbcType=VARCHAR}, #{defaultAccount,jdbcType=VARCHAR}, #{icode,jdbcType=VARCHAR}, 
+      #{dr,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.product.entity.UserBank" >
+    insert into user_bank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="bankCard != null" >
+        bank_card,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="openBank != null" >
+        open_bank,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="bankPk != null" >
+        bank_pk,
+      </if>
+      <if test="defaultAccount != null" >
+        default_account,
+      </if>
+      <if test="icode != null" >
+        icode,
+      </if>
+      <if test="dr != null" >
+        dr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null" >
+        #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="openBank != null" >
+        #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankPk != null" >
+        #{bankPk,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultAccount != null" >
+        #{defaultAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="icode != null" >
+        #{icode,jdbcType=VARCHAR},
+      </if>
+      <if test="dr != null" >
+        #{dr,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.product.entity.UserBankExample" resultType="java.lang.Integer" >
+    select count(*) from user_bank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_bank
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankCard != null" >
+        bank_card = #{record.bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null" >
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openBank != null" >
+        open_bank = #{record.openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bankPk != null" >
+        bank_pk = #{record.bankPk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defaultAccount != null" >
+        default_account = #{record.defaultAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icode != null" >
+        icode = #{record.icode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dr != null" >
+        dr = #{record.dr,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_bank
+    set user_id = #{record.userId,jdbcType=VARCHAR},
+      bank_card = #{record.bankCard,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      open_bank = #{record.openBank,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      bank_pk = #{record.bankPk,jdbcType=VARCHAR},
+      default_account = #{record.defaultAccount,jdbcType=VARCHAR},
+      icode = #{record.icode,jdbcType=VARCHAR},
+      dr = #{record.dr,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.product.entity.UserBank" >
+    update user_bank
+    <set >
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="openBank != null" >
+        open_bank = #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankPk != null" >
+        bank_pk = #{bankPk,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultAccount != null" >
+        default_account = #{defaultAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="icode != null" >
+        icode = #{icode,jdbcType=VARCHAR},
+      </if>
+      <if test="dr != null" >
+        dr = #{dr,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and bank_card = #{bankCard,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.product.entity.UserBank" >
+    update user_bank
+    set bank_name = #{bankName,jdbcType=VARCHAR},
+      open_bank = #{openBank,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      bank_pk = #{bankPk,jdbcType=VARCHAR},
+      default_account = #{defaultAccount,jdbcType=VARCHAR},
+      icode = #{icode,jdbcType=VARCHAR},
+      dr = #{dr,jdbcType=BIT}
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and bank_card = #{bankCard,jdbcType=VARCHAR}
+  </update>
+</mapper>

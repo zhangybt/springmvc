@@ -34,4 +34,7 @@
 
     <!-- 4:扫描web相关的bean-->
     <context:component-scan base-package="com.product.controller"/>
+
+    <!-- 定义统一异常处理器 -->
+    <bean class="com.product.exception.CustomExceptionResolver"></bean>
 </beans>

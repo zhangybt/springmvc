@@ -2,42 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.product.dao.UserMapper">
     <resultMap id="BaseResultMap" type="com.product.entity.User">
-        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
-        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="userid" property="userid" jdbcType="VARCHAR"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
-        <result column="user_mobile" property="userMobile" jdbcType="VARCHAR"/>
-        <result column="user_password" property="userPassword" jdbcType="VARCHAR"/>
-        <result column="user_email" property="userEmail" jdbcType="VARCHAR"/>
-        <result column="user_states" property="userStates" jdbcType="INTEGER"/>
-        <result column="user_avator" property="userAvator" jdbcType="VARCHAR"/>
-        <result column="company_id" property="companyId" jdbcType="VARCHAR"/>
-        <result column="department_id" property="departmentId" jdbcType="VARCHAR"/>
-        <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
-        <result column="source_id" property="sourceId" jdbcType="VARCHAR"/>
-        <result column="secretkey" property="secretkey" jdbcType="VARCHAR"/>
-        <result column="outdate" property="outdate" jdbcType="VARCHAR"/>
-        <result column="mailvalidatect" property="mailvalidatect" jdbcType="SMALLINT"/>
-        <result column="version_num" property="versionNum" jdbcType="BIGINT"/>
-        <result column="last_login_date" property="lastLoginDate" jdbcType="VARCHAR"/>
-        <result column="telphone" property="telphone" jdbcType="VARCHAR"/>
-        <result column="weixin" property="weixin" jdbcType="VARCHAR"/>
-        <result column="qq" property="qq" jdbcType="VARCHAR"/>
-        <result column="weibo" property="weibo" jdbcType="VARCHAR"/>
-        <result column="register_time" property="registerTime" jdbcType="TIMESTAMP"/>
-        <result column="tag" property="tag" jdbcType="VARCHAR"/>
-        <result column="begindate" property="begindate" jdbcType="TIMESTAMP"/>
-        <result column="enddate" property="enddate" jdbcType="TIMESTAMP"/>
-        <result column="type" property="type" jdbcType="INTEGER"/>
-        <result column="status" property="status" jdbcType="INTEGER"/>
-        <result column="source" property="source" jdbcType="VARCHAR"/>
-        <result column="code" property="code" jdbcType="VARCHAR"/>
-        <result column="sex" property="sex" jdbcType="INTEGER"/>
-        <result column="userremark" property="userremark" jdbcType="VARCHAR"/>
-        <result column="position" property="position" jdbcType="VARCHAR"/>
-        <result column="nikename" property="nikename" jdbcType="VARCHAR"/>
-        <result column="account" property="account" jdbcType="VARCHAR"/>
-        <result column="validate_email" property="validateEmail" jdbcType="INTEGER"/>
-        <result column="validate_mobile" property="validateMobile" jdbcType="INTEGER"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="birthday" property="birthday" jdbcType="DATE"/>
+        <result column="registerdate" property="registerdate" jdbcType="TIMESTAMP"/>
+        <result column="location" property="location" jdbcType="VARCHAR"/>
+        <result column="company" property="company" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="telnum" property="telnum" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="association" property="association" jdbcType="VARCHAR"/>
+        <result column="ts" property="ts" jdbcType="TIMESTAMP"/>
+        <result column="deptpk" property="deptpk" jdbcType="VARCHAR"/>
+        <result column="deptname" property="deptname" jdbcType="VARCHAR"/>
+        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <result column="dr" property="dr" jdbcType="BIT"/>
+        <result column="postpk" property="postpk" jdbcType="VARCHAR"/>
+        <result column="postname" property="postname" jdbcType="VARCHAR"/>
+        <result column="rankpk" property="rankpk" jdbcType="VARCHAR"/>
+        <result column="rankname" property="rankname" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.product.entity.User" extends="BaseResultMap">
+        <result column="description" property="description" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -100,19 +89,22 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    user_id, user_code, user_name, user_mobile, user_password, user_email, user_states, 
-    user_avator, company_id, department_id, system_id, source_id, secretkey, outdate, 
-    mailvalidatect, version_num, last_login_date, telphone, weixin, qq, weibo, register_time, 
-    tag, begindate, enddate, type, status, source, code, sex, userremark, position, nikename, 
-    account, validate_email, validate_mobile
+    id, userid, user_name, password, birthday, registerdate, location, company, email, 
+    phone, telnum, avatar, association, ts, deptpk, deptname, user_code, dr, postpk, 
+    postname, rankpk, rankname
   </sql>
-    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.product.entity.UserExample">
+    <sql id="Blob_Column_List">
+    description
+  </sql>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.product.entity.UserExample">
         select
         <if test="distinct">
             distinct
         </if>
         <include refid="Base_Column_List"/>
-        from pub_tenant_user
+        ,
+        <include refid="Blob_Column_List"/>
+        from user_t
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
@@ -120,598 +112,479 @@
             order by ${orderByClause}
         </if>
     </select>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.product.entity.UserExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from user_t
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from pub_tenant_user
-        where user_id = #{userId,jdbcType=VARCHAR}
+        ,
+        <include refid="Blob_Column_List"/>
+        from user_t
+        where id = #{id,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from pub_tenant_user
-    where user_id = #{userId,jdbcType=VARCHAR}
+    <select id="selectByPhone" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from user_t
+        where phone = #{phone,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_t
+    where id = #{id,jdbcType=INTEGER}
   </delete>
     <delete id="deleteByExample" parameterType="com.product.entity.UserExample">
-        delete from pub_tenant_user
+        delete from user_t
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
     <insert id="insert" parameterType="com.product.entity.User">
-    insert into pub_tenant_user (user_id, user_code, user_name, 
-      user_mobile, user_password, user_email, 
-      user_states, user_avator, company_id, 
-      department_id, system_id, source_id, 
-      secretkey, outdate, mailvalidatect, 
-      version_num, last_login_date, telphone, 
-      weixin, qq, weibo, 
-      register_time, tag, begindate, 
-      enddate, type, status, 
-      source, code, sex, 
-      userremark, position, nikename, 
-      account, validate_email, validate_mobile
-      )
-    values (#{userId,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
-      #{userMobile,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, 
-      #{userStates,jdbcType=INTEGER}, #{userAvator,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
-      #{departmentId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, #{sourceId,jdbcType=VARCHAR}, 
-      #{secretkey,jdbcType=VARCHAR}, #{outdate,jdbcType=VARCHAR}, #{mailvalidatect,jdbcType=SMALLINT}, 
-      #{versionNum,jdbcType=BIGINT}, #{lastLoginDate,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, 
-      #{weixin,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{weibo,jdbcType=VARCHAR}, 
-      #{registerTime,jdbcType=TIMESTAMP}, #{tag,jdbcType=VARCHAR}, #{begindate,jdbcType=TIMESTAMP}, 
-      #{enddate,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{source,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
-      #{userremark,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{nikename,jdbcType=VARCHAR}, 
-      #{account,jdbcType=VARCHAR}, #{validateEmail,jdbcType=INTEGER}, #{validateMobile,jdbcType=INTEGER}
-      )
+    insert into user_t (id, userid, user_name, 
+      password, birthday, registerdate, 
+      location, company, email, 
+      phone, telnum, avatar, 
+      association, ts, deptpk, 
+      deptname, user_code, dr, 
+      postpk, postname, rankpk, 
+      rankname, description)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{registerdate,jdbcType=TIMESTAMP}, 
+      #{location,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{telnum,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{association,jdbcType=VARCHAR}, #{ts,jdbcType=TIMESTAMP}, #{deptpk,jdbcType=VARCHAR}, 
+      #{deptname,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, #{dr,jdbcType=BIT}, 
+      #{postpk,jdbcType=VARCHAR}, #{postname,jdbcType=VARCHAR}, #{rankpk,jdbcType=VARCHAR}, 
+      #{rankname,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.product.entity.User">
-        insert into pub_tenant_user
+        insert into user_t
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                user_id,
+            <if test="id != null">
+                id,
             </if>
-            <if test="userCode != null">
-                user_code,
+            <if test="userid != null">
+                userid,
             </if>
             <if test="userName != null">
                 user_name,
             </if>
-            <if test="userMobile != null">
-                user_mobile,
+            <if test="password != null">
+                password,
             </if>
-            <if test="userPassword != null">
-                user_password,
+            <if test="birthday != null">
+                birthday,
             </if>
-            <if test="userEmail != null">
-                user_email,
+            <if test="registerdate != null">
+                registerdate,
             </if>
-            <if test="userStates != null">
-                user_states,
+            <if test="location != null">
+                location,
             </if>
-            <if test="userAvator != null">
-                user_avator,
+            <if test="company != null">
+                company,
             </if>
-            <if test="companyId != null">
-                company_id,
+            <if test="email != null">
+                email,
             </if>
-            <if test="departmentId != null">
-                department_id,
+            <if test="phone != null">
+                phone,
             </if>
-            <if test="systemId != null">
-                system_id,
+            <if test="telnum != null">
+                telnum,
             </if>
-            <if test="sourceId != null">
-                source_id,
+            <if test="avatar != null">
+                avatar,
             </if>
-            <if test="secretkey != null">
-                secretkey,
+            <if test="association != null">
+                association,
             </if>
-            <if test="outdate != null">
-                outdate,
+            <if test="ts != null">
+                ts,
             </if>
-            <if test="mailvalidatect != null">
-                mailvalidatect,
+            <if test="deptpk != null">
+                deptpk,
             </if>
-            <if test="versionNum != null">
-                version_num,
+            <if test="deptname != null">
+                deptname,
             </if>
-            <if test="lastLoginDate != null">
-                last_login_date,
+            <if test="userCode != null">
+                user_code,
             </if>
-            <if test="telphone != null">
-                telphone,
+            <if test="dr != null">
+                dr,
             </if>
-            <if test="weixin != null">
-                weixin,
+            <if test="postpk != null">
+                postpk,
             </if>
-            <if test="qq != null">
-                qq,
+            <if test="postname != null">
+                postname,
             </if>
-            <if test="weibo != null">
-                weibo,
+            <if test="rankpk != null">
+                rankpk,
             </if>
-            <if test="registerTime != null">
-                register_time,
+            <if test="rankname != null">
+                rankname,
             </if>
-            <if test="tag != null">
-                tag,
-            </if>
-            <if test="begindate != null">
-                begindate,
-            </if>
-            <if test="enddate != null">
-                enddate,
-            </if>
-            <if test="type != null">
-                type,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="source != null">
-                source,
-            </if>
-            <if test="code != null">
-                code,
-            </if>
-            <if test="sex != null">
-                sex,
-            </if>
-            <if test="userremark != null">
-                userremark,
-            </if>
-            <if test="position != null">
-                position,
-            </if>
-            <if test="nikename != null">
-                nikename,
-            </if>
-            <if test="account != null">
-                account,
-            </if>
-            <if test="validateEmail != null">
-                validate_email,
-            </if>
-            <if test="validateMobile != null">
-                validate_mobile,
+            <if test="description != null">
+                description,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                #{userId,jdbcType=VARCHAR},
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
             </if>
-            <if test="userCode != null">
-                #{userCode,jdbcType=VARCHAR},
+            <if test="userid != null">
+                #{userid,jdbcType=VARCHAR},
             </if>
             <if test="userName != null">
                 #{userName,jdbcType=VARCHAR},
             </if>
-            <if test="userMobile != null">
-                #{userMobile,jdbcType=VARCHAR},
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
             </if>
-            <if test="userPassword != null">
-                #{userPassword,jdbcType=VARCHAR},
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
             </if>
-            <if test="userEmail != null">
-                #{userEmail,jdbcType=VARCHAR},
+            <if test="registerdate != null">
+                #{registerdate,jdbcType=TIMESTAMP},
             </if>
-            <if test="userStates != null">
-                #{userStates,jdbcType=INTEGER},
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
             </if>
-            <if test="userAvator != null">
-                #{userAvator,jdbcType=VARCHAR},
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
             </if>
-            <if test="companyId != null">
-                #{companyId,jdbcType=VARCHAR},
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
             </if>
-            <if test="departmentId != null">
-                #{departmentId,jdbcType=VARCHAR},
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
             </if>
-            <if test="systemId != null">
-                #{systemId,jdbcType=VARCHAR},
+            <if test="telnum != null">
+                #{telnum,jdbcType=VARCHAR},
             </if>
-            <if test="sourceId != null">
-                #{sourceId,jdbcType=VARCHAR},
+            <if test="avatar != null">
+                #{avatar,jdbcType=VARCHAR},
             </if>
-            <if test="secretkey != null">
-                #{secretkey,jdbcType=VARCHAR},
+            <if test="association != null">
+                #{association,jdbcType=VARCHAR},
             </if>
-            <if test="outdate != null">
-                #{outdate,jdbcType=VARCHAR},
+            <if test="ts != null">
+                #{ts,jdbcType=TIMESTAMP},
             </if>
-            <if test="mailvalidatect != null">
-                #{mailvalidatect,jdbcType=SMALLINT},
+            <if test="deptpk != null">
+                #{deptpk,jdbcType=VARCHAR},
             </if>
-            <if test="versionNum != null">
-                #{versionNum,jdbcType=BIGINT},
+            <if test="deptname != null">
+                #{deptname,jdbcType=VARCHAR},
             </if>
-            <if test="lastLoginDate != null">
-                #{lastLoginDate,jdbcType=VARCHAR},
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
             </if>
-            <if test="telphone != null">
-                #{telphone,jdbcType=VARCHAR},
+            <if test="dr != null">
+                #{dr,jdbcType=BIT},
             </if>
-            <if test="weixin != null">
-                #{weixin,jdbcType=VARCHAR},
+            <if test="postpk != null">
+                #{postpk,jdbcType=VARCHAR},
             </if>
-            <if test="qq != null">
-                #{qq,jdbcType=VARCHAR},
+            <if test="postname != null">
+                #{postname,jdbcType=VARCHAR},
             </if>
-            <if test="weibo != null">
-                #{weibo,jdbcType=VARCHAR},
+            <if test="rankpk != null">
+                #{rankpk,jdbcType=VARCHAR},
             </if>
-            <if test="registerTime != null">
-                #{registerTime,jdbcType=TIMESTAMP},
+            <if test="rankname != null">
+                #{rankname,jdbcType=VARCHAR},
             </if>
-            <if test="tag != null">
-                #{tag,jdbcType=VARCHAR},
-            </if>
-            <if test="begindate != null">
-                #{begindate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="enddate != null">
-                #{enddate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="type != null">
-                #{type,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=INTEGER},
-            </if>
-            <if test="source != null">
-                #{source,jdbcType=VARCHAR},
-            </if>
-            <if test="code != null">
-                #{code,jdbcType=VARCHAR},
-            </if>
-            <if test="sex != null">
-                #{sex,jdbcType=INTEGER},
-            </if>
-            <if test="userremark != null">
-                #{userremark,jdbcType=VARCHAR},
-            </if>
-            <if test="position != null">
-                #{position,jdbcType=VARCHAR},
-            </if>
-            <if test="nikename != null">
-                #{nikename,jdbcType=VARCHAR},
-            </if>
-            <if test="account != null">
-                #{account,jdbcType=VARCHAR},
-            </if>
-            <if test="validateEmail != null">
-                #{validateEmail,jdbcType=INTEGER},
-            </if>
-            <if test="validateMobile != null">
-                #{validateMobile,jdbcType=INTEGER},
+            <if test="description != null">
+                #{description,jdbcType=LONGVARCHAR},
             </if>
         </trim>
     </insert>
     <select id="countByExample" parameterType="com.product.entity.UserExample" resultType="java.lang.Integer">
-        select count(*) from pub_tenant_user
+        select count(*) from user_t
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
-        update pub_tenant_user
+        update user_t
         <set>
-            <if test="record.userId != null">
-                user_id = #{record.userId,jdbcType=VARCHAR},
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
             </if>
-            <if test="record.userCode != null">
-                user_code = #{record.userCode,jdbcType=VARCHAR},
+            <if test="record.userid != null">
+                userid = #{record.userid,jdbcType=VARCHAR},
             </if>
             <if test="record.userName != null">
                 user_name = #{record.userName,jdbcType=VARCHAR},
             </if>
-            <if test="record.userMobile != null">
-                user_mobile = #{record.userMobile,jdbcType=VARCHAR},
+            <if test="record.password != null">
+                password = #{record.password,jdbcType=VARCHAR},
             </if>
-            <if test="record.userPassword != null">
-                user_password = #{record.userPassword,jdbcType=VARCHAR},
+            <if test="record.birthday != null">
+                birthday = #{record.birthday,jdbcType=DATE},
             </if>
-            <if test="record.userEmail != null">
-                user_email = #{record.userEmail,jdbcType=VARCHAR},
+            <if test="record.registerdate != null">
+                registerdate = #{record.registerdate,jdbcType=TIMESTAMP},
             </if>
-            <if test="record.userStates != null">
-                user_states = #{record.userStates,jdbcType=INTEGER},
+            <if test="record.location != null">
+                location = #{record.location,jdbcType=VARCHAR},
             </if>
-            <if test="record.userAvator != null">
-                user_avator = #{record.userAvator,jdbcType=VARCHAR},
+            <if test="record.company != null">
+                company = #{record.company,jdbcType=VARCHAR},
             </if>
-            <if test="record.companyId != null">
-                company_id = #{record.companyId,jdbcType=VARCHAR},
+            <if test="record.email != null">
+                email = #{record.email,jdbcType=VARCHAR},
             </if>
-            <if test="record.departmentId != null">
-                department_id = #{record.departmentId,jdbcType=VARCHAR},
+            <if test="record.phone != null">
+                phone = #{record.phone,jdbcType=VARCHAR},
             </if>
-            <if test="record.systemId != null">
-                system_id = #{record.systemId,jdbcType=VARCHAR},
+            <if test="record.telnum != null">
+                telnum = #{record.telnum,jdbcType=VARCHAR},
             </if>
-            <if test="record.sourceId != null">
-                source_id = #{record.sourceId,jdbcType=VARCHAR},
+            <if test="record.avatar != null">
+                avatar = #{record.avatar,jdbcType=VARCHAR},
             </if>
-            <if test="record.secretkey != null">
-                secretkey = #{record.secretkey,jdbcType=VARCHAR},
+            <if test="record.association != null">
+                association = #{record.association,jdbcType=VARCHAR},
             </if>
-            <if test="record.outdate != null">
-                outdate = #{record.outdate,jdbcType=VARCHAR},
+            <if test="record.ts != null">
+                ts = #{record.ts,jdbcType=TIMESTAMP},
             </if>
-            <if test="record.mailvalidatect != null">
-                mailvalidatect = #{record.mailvalidatect,jdbcType=SMALLINT},
+            <if test="record.deptpk != null">
+                deptpk = #{record.deptpk,jdbcType=VARCHAR},
             </if>
-            <if test="record.versionNum != null">
-                version_num = #{record.versionNum,jdbcType=BIGINT},
+            <if test="record.deptname != null">
+                deptname = #{record.deptname,jdbcType=VARCHAR},
             </if>
-            <if test="record.lastLoginDate != null">
-                last_login_date = #{record.lastLoginDate,jdbcType=VARCHAR},
+            <if test="record.userCode != null">
+                user_code = #{record.userCode,jdbcType=VARCHAR},
             </if>
-            <if test="record.telphone != null">
-                telphone = #{record.telphone,jdbcType=VARCHAR},
+            <if test="record.dr != null">
+                dr = #{record.dr,jdbcType=BIT},
             </if>
-            <if test="record.weixin != null">
-                weixin = #{record.weixin,jdbcType=VARCHAR},
+            <if test="record.postpk != null">
+                postpk = #{record.postpk,jdbcType=VARCHAR},
             </if>
-            <if test="record.qq != null">
-                qq = #{record.qq,jdbcType=VARCHAR},
+            <if test="record.postname != null">
+                postname = #{record.postname,jdbcType=VARCHAR},
             </if>
-            <if test="record.weibo != null">
-                weibo = #{record.weibo,jdbcType=VARCHAR},
+            <if test="record.rankpk != null">
+                rankpk = #{record.rankpk,jdbcType=VARCHAR},
             </if>
-            <if test="record.registerTime != null">
-                register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+            <if test="record.rankname != null">
+                rankname = #{record.rankname,jdbcType=VARCHAR},
             </if>
-            <if test="record.tag != null">
-                tag = #{record.tag,jdbcType=VARCHAR},
-            </if>
-            <if test="record.begindate != null">
-                begindate = #{record.begindate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.enddate != null">
-                enddate = #{record.enddate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.type != null">
-                type = #{record.type,jdbcType=INTEGER},
-            </if>
-            <if test="record.status != null">
-                status = #{record.status,jdbcType=INTEGER},
-            </if>
-            <if test="record.source != null">
-                source = #{record.source,jdbcType=VARCHAR},
-            </if>
-            <if test="record.code != null">
-                code = #{record.code,jdbcType=VARCHAR},
-            </if>
-            <if test="record.sex != null">
-                sex = #{record.sex,jdbcType=INTEGER},
-            </if>
-            <if test="record.userremark != null">
-                userremark = #{record.userremark,jdbcType=VARCHAR},
-            </if>
-            <if test="record.position != null">
-                position = #{record.position,jdbcType=VARCHAR},
-            </if>
-            <if test="record.nikename != null">
-                nikename = #{record.nikename,jdbcType=VARCHAR},
-            </if>
-            <if test="record.account != null">
-                account = #{record.account,jdbcType=VARCHAR},
-            </if>
-            <if test="record.validateEmail != null">
-                validate_email = #{record.validateEmail,jdbcType=INTEGER},
-            </if>
-            <if test="record.validateMobile != null">
-                validate_mobile = #{record.validateMobile,jdbcType=INTEGER},
+            <if test="record.description != null">
+                description = #{record.description,jdbcType=LONGVARCHAR},
             </if>
         </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update user_t
+        set id = #{record.id,jdbcType=INTEGER},
+        userid = #{record.userid,jdbcType=VARCHAR},
+        user_name = #{record.userName,jdbcType=VARCHAR},
+        password = #{record.password,jdbcType=VARCHAR},
+        birthday = #{record.birthday,jdbcType=DATE},
+        registerdate = #{record.registerdate,jdbcType=TIMESTAMP},
+        location = #{record.location,jdbcType=VARCHAR},
+        company = #{record.company,jdbcType=VARCHAR},
+        email = #{record.email,jdbcType=VARCHAR},
+        phone = #{record.phone,jdbcType=VARCHAR},
+        telnum = #{record.telnum,jdbcType=VARCHAR},
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+        association = #{record.association,jdbcType=VARCHAR},
+        ts = #{record.ts,jdbcType=TIMESTAMP},
+        deptpk = #{record.deptpk,jdbcType=VARCHAR},
+        deptname = #{record.deptname,jdbcType=VARCHAR},
+        user_code = #{record.userCode,jdbcType=VARCHAR},
+        dr = #{record.dr,jdbcType=BIT},
+        postpk = #{record.postpk,jdbcType=VARCHAR},
+        postname = #{record.postname,jdbcType=VARCHAR},
+        rankpk = #{record.rankpk,jdbcType=VARCHAR},
+        rankname = #{record.rankname,jdbcType=VARCHAR},
+        description = #{record.description,jdbcType=LONGVARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
-        update pub_tenant_user
-        set user_id = #{record.userId,jdbcType=VARCHAR},
-        user_code = #{record.userCode,jdbcType=VARCHAR},
+        update user_t
+        set id = #{record.id,jdbcType=INTEGER},
+        userid = #{record.userid,jdbcType=VARCHAR},
         user_name = #{record.userName,jdbcType=VARCHAR},
-        user_mobile = #{record.userMobile,jdbcType=VARCHAR},
-        user_password = #{record.userPassword,jdbcType=VARCHAR},
-        user_email = #{record.userEmail,jdbcType=VARCHAR},
-        user_states = #{record.userStates,jdbcType=INTEGER},
-        user_avator = #{record.userAvator,jdbcType=VARCHAR},
-        company_id = #{record.companyId,jdbcType=VARCHAR},
-        department_id = #{record.departmentId,jdbcType=VARCHAR},
-        system_id = #{record.systemId,jdbcType=VARCHAR},
-        source_id = #{record.sourceId,jdbcType=VARCHAR},
-        secretkey = #{record.secretkey,jdbcType=VARCHAR},
-        outdate = #{record.outdate,jdbcType=VARCHAR},
-        mailvalidatect = #{record.mailvalidatect,jdbcType=SMALLINT},
-        version_num = #{record.versionNum,jdbcType=BIGINT},
-        last_login_date = #{record.lastLoginDate,jdbcType=VARCHAR},
-        telphone = #{record.telphone,jdbcType=VARCHAR},
-        weixin = #{record.weixin,jdbcType=VARCHAR},
-        qq = #{record.qq,jdbcType=VARCHAR},
-        weibo = #{record.weibo,jdbcType=VARCHAR},
-        register_time = #{record.registerTime,jdbcType=TIMESTAMP},
-        tag = #{record.tag,jdbcType=VARCHAR},
-        begindate = #{record.begindate,jdbcType=TIMESTAMP},
-        enddate = #{record.enddate,jdbcType=TIMESTAMP},
-        type = #{record.type,jdbcType=INTEGER},
-        status = #{record.status,jdbcType=INTEGER},
-        source = #{record.source,jdbcType=VARCHAR},
-        code = #{record.code,jdbcType=VARCHAR},
-        sex = #{record.sex,jdbcType=INTEGER},
-        userremark = #{record.userremark,jdbcType=VARCHAR},
-        position = #{record.position,jdbcType=VARCHAR},
-        nikename = #{record.nikename,jdbcType=VARCHAR},
-        account = #{record.account,jdbcType=VARCHAR},
-        validate_email = #{record.validateEmail,jdbcType=INTEGER},
-        validate_mobile = #{record.validateMobile,jdbcType=INTEGER}
+        password = #{record.password,jdbcType=VARCHAR},
+        birthday = #{record.birthday,jdbcType=DATE},
+        registerdate = #{record.registerdate,jdbcType=TIMESTAMP},
+        location = #{record.location,jdbcType=VARCHAR},
+        company = #{record.company,jdbcType=VARCHAR},
+        email = #{record.email,jdbcType=VARCHAR},
+        phone = #{record.phone,jdbcType=VARCHAR},
+        telnum = #{record.telnum,jdbcType=VARCHAR},
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+        association = #{record.association,jdbcType=VARCHAR},
+        ts = #{record.ts,jdbcType=TIMESTAMP},
+        deptpk = #{record.deptpk,jdbcType=VARCHAR},
+        deptname = #{record.deptname,jdbcType=VARCHAR},
+        user_code = #{record.userCode,jdbcType=VARCHAR},
+        dr = #{record.dr,jdbcType=BIT},
+        postpk = #{record.postpk,jdbcType=VARCHAR},
+        postname = #{record.postname,jdbcType=VARCHAR},
+        rankpk = #{record.rankpk,jdbcType=VARCHAR},
+        rankname = #{record.rankname,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.product.entity.User">
-        update pub_tenant_user
+        update user_t
         <set>
-            <if test="userCode != null">
-                user_code = #{userCode,jdbcType=VARCHAR},
+            <if test="userid != null">
+                userid = #{userid,jdbcType=VARCHAR},
             </if>
             <if test="userName != null">
                 user_name = #{userName,jdbcType=VARCHAR},
             </if>
-            <if test="userMobile != null">
-                user_mobile = #{userMobile,jdbcType=VARCHAR},
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
             </if>
-            <if test="userPassword != null">
-                user_password = #{userPassword,jdbcType=VARCHAR},
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
             </if>
-            <if test="userEmail != null">
-                user_email = #{userEmail,jdbcType=VARCHAR},
+            <if test="registerdate != null">
+                registerdate = #{registerdate,jdbcType=TIMESTAMP},
             </if>
-            <if test="userStates != null">
-                user_states = #{userStates,jdbcType=INTEGER},
+            <if test="location != null">
+                location = #{location,jdbcType=VARCHAR},
             </if>
-            <if test="userAvator != null">
-                user_avator = #{userAvator,jdbcType=VARCHAR},
+            <if test="company != null">
+                company = #{company,jdbcType=VARCHAR},
             </if>
-            <if test="companyId != null">
-                company_id = #{companyId,jdbcType=VARCHAR},
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
             </if>
-            <if test="departmentId != null">
-                department_id = #{departmentId,jdbcType=VARCHAR},
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
             </if>
-            <if test="systemId != null">
-                system_id = #{systemId,jdbcType=VARCHAR},
+            <if test="telnum != null">
+                telnum = #{telnum,jdbcType=VARCHAR},
             </if>
-            <if test="sourceId != null">
-                source_id = #{sourceId,jdbcType=VARCHAR},
+            <if test="avatar != null">
+                avatar = #{avatar,jdbcType=VARCHAR},
             </if>
-            <if test="secretkey != null">
-                secretkey = #{secretkey,jdbcType=VARCHAR},
+            <if test="association != null">
+                association = #{association,jdbcType=VARCHAR},
             </if>
-            <if test="outdate != null">
-                outdate = #{outdate,jdbcType=VARCHAR},
+            <if test="ts != null">
+                ts = #{ts,jdbcType=TIMESTAMP},
             </if>
-            <if test="mailvalidatect != null">
-                mailvalidatect = #{mailvalidatect,jdbcType=SMALLINT},
+            <if test="deptpk != null">
+                deptpk = #{deptpk,jdbcType=VARCHAR},
             </if>
-            <if test="versionNum != null">
-                version_num = #{versionNum,jdbcType=BIGINT},
+            <if test="deptname != null">
+                deptname = #{deptname,jdbcType=VARCHAR},
             </if>
-            <if test="lastLoginDate != null">
-                last_login_date = #{lastLoginDate,jdbcType=VARCHAR},
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=VARCHAR},
             </if>
-            <if test="telphone != null">
-                telphone = #{telphone,jdbcType=VARCHAR},
+            <if test="dr != null">
+                dr = #{dr,jdbcType=BIT},
             </if>
-            <if test="weixin != null">
-                weixin = #{weixin,jdbcType=VARCHAR},
+            <if test="postpk != null">
+                postpk = #{postpk,jdbcType=VARCHAR},
             </if>
-            <if test="qq != null">
-                qq = #{qq,jdbcType=VARCHAR},
+            <if test="postname != null">
+                postname = #{postname,jdbcType=VARCHAR},
             </if>
-            <if test="weibo != null">
-                weibo = #{weibo,jdbcType=VARCHAR},
+            <if test="rankpk != null">
+                rankpk = #{rankpk,jdbcType=VARCHAR},
             </if>
-            <if test="registerTime != null">
-                register_time = #{registerTime,jdbcType=TIMESTAMP},
+            <if test="rankname != null">
+                rankname = #{rankname,jdbcType=VARCHAR},
             </if>
-            <if test="tag != null">
-                tag = #{tag,jdbcType=VARCHAR},
-            </if>
-            <if test="begindate != null">
-                begindate = #{begindate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="enddate != null">
-                enddate = #{enddate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="type != null">
-                type = #{type,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="source != null">
-                source = #{source,jdbcType=VARCHAR},
-            </if>
-            <if test="code != null">
-                code = #{code,jdbcType=VARCHAR},
-            </if>
-            <if test="sex != null">
-                sex = #{sex,jdbcType=INTEGER},
-            </if>
-            <if test="userremark != null">
-                userremark = #{userremark,jdbcType=VARCHAR},
-            </if>
-            <if test="position != null">
-                position = #{position,jdbcType=VARCHAR},
-            </if>
-            <if test="nikename != null">
-                nikename = #{nikename,jdbcType=VARCHAR},
-            </if>
-            <if test="account != null">
-                account = #{account,jdbcType=VARCHAR},
-            </if>
-            <if test="validateEmail != null">
-                validate_email = #{validateEmail,jdbcType=INTEGER},
-            </if>
-            <if test="validateMobile != null">
-                validate_mobile = #{validateMobile,jdbcType=INTEGER},
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where user_id = #{userId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.product.entity.User">
-    update pub_tenant_user
-    set user_code = #{userCode,jdbcType=VARCHAR},
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.product.entity.User">
+    update user_t
+    set userid = #{userid,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
-      user_mobile = #{userMobile,jdbcType=VARCHAR},
-      user_password = #{userPassword,jdbcType=VARCHAR},
-      user_email = #{userEmail,jdbcType=VARCHAR},
-      user_states = #{userStates,jdbcType=INTEGER},
-      user_avator = #{userAvator,jdbcType=VARCHAR},
-      company_id = #{companyId,jdbcType=VARCHAR},
-      department_id = #{departmentId,jdbcType=VARCHAR},
-      system_id = #{systemId,jdbcType=VARCHAR},
-      source_id = #{sourceId,jdbcType=VARCHAR},
-      secretkey = #{secretkey,jdbcType=VARCHAR},
-      outdate = #{outdate,jdbcType=VARCHAR},
-      mailvalidatect = #{mailvalidatect,jdbcType=SMALLINT},
-      version_num = #{versionNum,jdbcType=BIGINT},
-      last_login_date = #{lastLoginDate,jdbcType=VARCHAR},
-      telphone = #{telphone,jdbcType=VARCHAR},
-      weixin = #{weixin,jdbcType=VARCHAR},
-      qq = #{qq,jdbcType=VARCHAR},
-      weibo = #{weibo,jdbcType=VARCHAR},
-      register_time = #{registerTime,jdbcType=TIMESTAMP},
-      tag = #{tag,jdbcType=VARCHAR},
-      begindate = #{begindate,jdbcType=TIMESTAMP},
-      enddate = #{enddate,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      source = #{source,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=INTEGER},
-      userremark = #{userremark,jdbcType=VARCHAR},
-      position = #{position,jdbcType=VARCHAR},
-      nikename = #{nikename,jdbcType=VARCHAR},
-      account = #{account,jdbcType=VARCHAR},
-      validate_email = #{validateEmail,jdbcType=INTEGER},
-      validate_mobile = #{validateMobile,jdbcType=INTEGER}
-    where user_id = #{userId,jdbcType=VARCHAR}
+      password = #{password,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      registerdate = #{registerdate,jdbcType=TIMESTAMP},
+      location = #{location,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      telnum = #{telnum,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      association = #{association,jdbcType=VARCHAR},
+      ts = #{ts,jdbcType=TIMESTAMP},
+      deptpk = #{deptpk,jdbcType=VARCHAR},
+      deptname = #{deptname,jdbcType=VARCHAR},
+      user_code = #{userCode,jdbcType=VARCHAR},
+      dr = #{dr,jdbcType=BIT},
+      postpk = #{postpk,jdbcType=VARCHAR},
+      postname = #{postname,jdbcType=VARCHAR},
+      rankpk = #{rankpk,jdbcType=VARCHAR},
+      rankname = #{rankname,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.product.entity.User">
+    update user_t
+    set userid = #{userid,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      registerdate = #{registerdate,jdbcType=TIMESTAMP},
+      location = #{location,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      telnum = #{telnum,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      association = #{association,jdbcType=VARCHAR},
+      ts = #{ts,jdbcType=TIMESTAMP},
+      deptpk = #{deptpk,jdbcType=VARCHAR},
+      deptname = #{deptname,jdbcType=VARCHAR},
+      user_code = #{userCode,jdbcType=VARCHAR},
+      dr = #{dr,jdbcType=BIT},
+      postpk = #{postpk,jdbcType=VARCHAR},
+      postname = #{postname,jdbcType=VARCHAR},
+      rankpk = #{rankpk,jdbcType=VARCHAR},
+      rankname = #{rankname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 
-    <insert id="insertUserBatch" parameterType="java.util.List">
-        insert into seckill.pub_tenant_user
-        (user_id,user_name,user_mobile,user_email,user_password,user_states,user_code) values
-        <foreach collection="list" item="item" index="index" separator=",">
-            (
-            #{item.userId}, #{item.userName},
-            #{item.userMobile},#{item.userEmail},
-            #{item.userPassword}, #{item.userStates},
-            #{item.userCode}
-            )
-        </foreach>
-    </insert>
+    <select id="selectUsers" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from user_t
+    </select>
 </mapper>

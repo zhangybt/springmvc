@@ -27,36 +27,36 @@ public class UserMapperTest {
     @Test
     public void insertUserBatch() throws Exception {
         long beginTime = System.currentTimeMillis();
-        List<User> userList = new ArrayList<User>();
-        for(int i=0;i<1;i++){
-            User user = new User();
-            user.setUserId(UUID.randomUUID().toString());
-            user.setUserCode("zhangybt"+"00000"+(i+11));
-            user.setUserName("zhangyanbin");
-            user.setUserEmail("zhangybt@yonyou.com");
-            user.setUserMobile("17778135772");
-            user.setUserPassword("a123456");
-            user.setUserStates(1);
-            userList.add(user);
-        }
-        int result = userMapper.insertUserBatch(userList);
+//        List<User> userList = new ArrayList<User>();
+//        for(int i=0;i<1;i++){
+//            User user = new User();
+//            user.setUserId(UUID.randomUUID().toString());
+//            user.setUserCode("zhangybt"+"00000"+(i+11));
+//            user.setUserName("zhangyanbin");
+//            user.setUserEmail("zhangybt@yonyou.com");
+//            user.setUserMobile("17778135772");
+//            user.setUserPassword("a123456");
+//            user.setUserStates(1);
+//            userList.add(user);
+//        }
+//        int result = userMapper.insertUserBatch(userList);
 //        int result = userMapper.insert(user);
-        logger.info("result={}", result);
+        logger.info("result={}", "result");
         System.out.println("执行耗时："+(System.currentTimeMillis() - beginTime)/1000f+"秒");
     }
 
     @Test
     public void insert() throws Exception{
         long beginTime = System.currentTimeMillis();
-        User user = new User();
-        user.setUserId(UUID.randomUUID().toString());
-        user.setUserCode("zhangybt"+"0001");
-        user.setUserName("zhangyanbin");
-        user.setUserEmail("zhangybt@yonyou.com");
-        user.setUserMobile("17778135772");
-        user.setUserPassword("a123456");
-        user.setUserStates(1);
-        userMapper.insert(user);
+//        User user = new User();
+//        user.setUserId(UUID.randomUUID().toString());
+//        user.setUserCode("zhangybt"+"0001");
+//        user.setUserName("zhangyanbin");
+//        user.setUserEmail("zhangybt@yonyou.com");
+//        user.setUserMobile("17778135772");
+//        user.setUserPassword("a123456");
+//        user.setUserStates(1);
+//        userMapper.insert(user);
         System.out.println("执行耗时："+(System.currentTimeMillis() - beginTime)/1000f+"秒");
     }
 
@@ -78,6 +78,14 @@ public class UserMapperTest {
     @Test
     public void updateByExampleSelective() throws Exception {
 
+    }
+
+    @Test
+    public void selectByPhone() throws Exception{
+//        User user = userMapper.selectByPhone("13920170000");
+//        System.out.println("user="+user);
+        List<User> userList = userMapper.selectUsers();
+        System.out.println(userList);
     }
 
 }

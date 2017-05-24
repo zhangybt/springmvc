@@ -15,7 +15,7 @@
         <div class="navbar-inner">
             <a class="brand" href="#">Title</a>
             <ul class="nav">
-                <li class="active"><a href="/springmvc/list">Home</a></li>
+                <li class="active"><a href="/user/list">Home</a></li>
                 <li><a href="#">Link</a></li>
                 <li><a href="#">Link</a></li>
             </ul>
