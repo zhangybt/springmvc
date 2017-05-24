@@ -1,0 +1,16 @@
+/.idea/workspace.xml
+/target
+/.settings
+/.idea
+.classpath
+.project
+webdefault.xml
+.iml
+.log
+
+/*.iml
+.idea
+/.idea/*
+/.idea/copyright
+/.idea/libraries
+/.idea/artifacts
